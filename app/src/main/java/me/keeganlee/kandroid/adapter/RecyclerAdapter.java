@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.keeganlee.kandroid.activity;
+package me.keeganlee.kandroid.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -41,12 +41,25 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Coupon
 
     private Context context;
 
-    public List<CouponBO> itemList = new ArrayList<CouponBO>();
+    private List<CouponBO> itemList = new ArrayList<CouponBO>();
 
     public RecyclerAdapter(Context context) {
         this.context = context;
     }
 
+    /**
+     * 由于RecyclerView没有setOnItemClickListener，需要自己写
+     */
+    public interface OnRecyclerViewListener {
+        void onItemClick(int position);
+        boolean onItemLongClick(int position);
+    }
+
+    private OnRecyclerViewListener onRecyclerViewListener;
+
+    public void setOnRecyclerViewListener(OnRecyclerViewListener listener) {
+        this.onRecyclerViewListener = listener;
+    }
     /**
      * 判断数据是否为空
      *
@@ -82,6 +95,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Coupon
      */
     public void clearItems() {
         itemList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 删除数据
+     */
+    public void removeItem(int position) {
+        itemList.remove(position);
         notifyDataSetChanged();
     }
 
@@ -141,7 +162,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Coupon
 
 
     //viewholder
-    class CouponViewHolder extends RecyclerView.ViewHolder {
+    class CouponViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+    View.OnLongClickListener{
+        View rootView;
         TextView titleText;
         TextView infoText;
         TextView priceText;
@@ -149,9 +172,28 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Coupon
 
         public CouponViewHolder(View itemView) {
             super(itemView);
+            rootView = itemView.findViewById(R.id.view_item_root);
             titleText = (TextView) itemView.findViewById(R.id.text_item_title);
             infoText = (TextView) itemView.findViewById(R.id.text_item_info);
             priceText = (TextView) itemView.findViewById(R.id.text_item_price);
+
+            rootView.setOnClickListener(this);
+            rootView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onRecyclerViewListener != null) {
+                onRecyclerViewListener.onItemClick(position);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (onRecyclerViewListener != null) {
+                return onRecyclerViewListener.onItemLongClick(position);
+            }
+            return false;
         }
     }
 

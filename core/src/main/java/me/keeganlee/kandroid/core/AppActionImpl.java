@@ -39,7 +39,9 @@ import java.util.regex.Pattern;
 public class AppActionImpl implements AppAction {
 
     private final static int LOGIN_OS = 1; // 表示Android
-    private final static int PAGE_SIZE = 20; // 默认每页20条
+    private final static int PAGE_SIZE = 5; // 默认每页10条
+    private int MAX_PAGE = -1;
+
 
     private Context context;
     private Api api;
@@ -182,6 +184,10 @@ public class AppActionImpl implements AppAction {
             if (listener != null) {
                 listener.onFailure(ErrorEvent.PARAM_ILLEGAL, "当前页数小于零");
             }
+        } else if(currentPage > MAX_PAGE && MAX_PAGE != -1) {
+            if (listener != null) {
+                listener.onFailure(ErrorEvent.PAGE_UP_FLOW, "没有啦╮(￣▽￣\")╭");
+            }
         }
 
         // 请求Api
@@ -195,6 +201,7 @@ public class AppActionImpl implements AppAction {
             protected void onPostExecute(ApiResponse<List<CouponBO>> response) {
                 if (listener != null && response != null) {
                     if (response.isSuccess()) {
+                        MAX_PAGE = response.getMaxPage();
                         listener.onSuccess(response.getObjList());
                     } else {
                         listener.onFailure(response.getEvent(), response.getMsg());
