@@ -2,6 +2,7 @@ package me.keeganlee.kandroid.activity;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,6 +51,7 @@ RecyclerAdapter.OnRecyclerViewListener{
         adapter = new RecyclerAdapter(this);
         adapter.setOnRecyclerViewListener(this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -60,9 +62,10 @@ RecyclerAdapter.OnRecyclerViewListener{
                 //删除了某些项后，滚动到底时lastVisiblePosition + 1 > adapter.getItemCount()
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisiblePosition + 1 >= adapter.getItemCount()) {
+                    swipeRefreshLayout.setRefreshing(true);
                     currentPage++;
                     getData();
-                    swipeRefreshLayout.setRefreshing(false);
+                    //swipeRefreshLayout.setRefreshing(false);
                 }
             }
 

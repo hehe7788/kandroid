@@ -122,8 +122,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Coupon
     }
 
     @Override
-    public CouponViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        Log.e(TAG, "onCreateViewHolder, i: " + i);
+    public CouponViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        Log.i(TAG, "onCreateViewHolder, type: " + viewType);
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_coupon,null);
 
         return new CouponViewHolder(view);
