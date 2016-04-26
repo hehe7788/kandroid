@@ -17,8 +17,11 @@ package me.keeganlee.kandroid.activity;
 
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.plus.model.people.Person;
 
 import me.keeganlee.kandroid.R;
 import me.keeganlee.kandroid.adapter.CouponListAdapter;
@@ -86,4 +89,16 @@ public class CouponListActivity extends KBaseActivity implements SwipeRefreshLay
         listAdapter.clearItems();
         getData();
     }
+
+    private ListView.OnScrollListener mOnScrollListener = new ListView.OnScrollListener() {
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        }
+    };
 }

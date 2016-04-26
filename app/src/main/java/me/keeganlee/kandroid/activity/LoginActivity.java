@@ -60,7 +60,8 @@ public class LoginActivity extends KBaseActivity {
             @Override
             public void onSuccess(Void data) {
                 Toast.makeText(context, R.string.toast_login_success, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(context, CouponListActivity.class);
+                //Intent intent = new Intent(context, CouponListActivity.class);
+                Intent intent = new Intent(context, CouponRecycleListActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -31,6 +31,7 @@
         android:layout_marginTop="@dimen/edit_vertical_margin"
         android:layout_marginBottom="@dimen/edit_vertical_margin"
         android:hint="@string/hint_phone"
+        android:text=""
         android:inputType="phone"
         android:singleLine="true" />
 
@@ -41,6 +42,7 @@
         android:layout_marginTop="@dimen/edit_vertical_margin"
         android:layout_marginBottom="@dimen/edit_vertical_margin"
         android:hint="@string/hint_password"
+        android:text="zxcvbn"
         android:inputType="textPassword"
         android:singleLine="true" />
 
